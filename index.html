@@ -41,12 +41,19 @@
 			white-space: pre;
 			overflow: hidden;
 		}
+		#logo {
+			position: absolute;
+			height: 2em;
+			right: 3em;
+			bottom: 0.5em;
+		}
 	</style>
 </head>
 <body>
 	<div class="terminal">
 		<div id="stdout"></div>
 		<input type="text" id="stdin" onkeyup="readterm(this)" autofocus>
+		<img src="img/xlestronix-logo.png" alt="logo" id="logo">
 	</div>
 	<script src="js/stdlib.js"></script>
 	<script src="js/bin.js"></script>
