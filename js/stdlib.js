@@ -27,10 +27,11 @@ function readterm(e)
 
 function parseterm(str)
 {
-	if (str.startsWith('% ')) {
-		str = str.substr(2);
-	}
-	return str.split(' ');
+	var argv = str.trim().split(/\s+/);
+	if (argv[0] === '%')
+		argv.shift();
+	
+	return argv;
 }
 
 function print(str)
