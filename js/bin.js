@@ -8,6 +8,9 @@ var programs = [
 
 function echo(argv)
 {
+	if (Array.isArray(argv)) {
+		argv = argv[0];
+	}
 	print(argv + '\n');
 }
 

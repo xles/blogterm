@@ -1,5 +1,20 @@
 var stdout = document.getElementById('stdout'),
-    stdin = document.getElementById('stdin');
+    stdin = document.getElementById('stdin'),
+    sh_history = getShellHistory();
+
+function getShellHistory()
+{
+	if (!localStorage.getItem('sh_history')) {
+		localStorage.setItem('sh_history', JSON.stringify([]));
+	}
+	return JSON.parse(localStorage.getItem('sh_history'));
+}
+
+function updateShellHistory(cmd)
+{
+	sh_history.push(cmd);
+	localStorage.setItem('sh_history', JSON.stringify(sh_history));
+}
 
 function redraw()
 {
@@ -9,9 +24,22 @@ function redraw()
 
 function readterm(e)
 {
-	if (event.keyCode !== 13) {
-		return null;
+	switch (event.keyCode) {
+		case 38:  // up arrow
+			echo('up arrow');
+			break;
+		case 40:  // up arrow
+			echo('down arrow');
+			break;
+		case 13:  // Return
+			//echo (e.value);
+			system(e.value);
+			break;
+		default:
+			return null;
+			break;
 	}
+/*
 	var input = e.value,
 	    argv  = parseterm(input),
 	    cmd   = argv.shift();
@@ -23,11 +51,17 @@ function readterm(e)
 		return echo(cmd + ': Command not found');
 	console.log('argv: %O', argv);
 	window[cmd](argv);
+*/
 }
 
 function parseterm(str)
 {
-	var argv = str.trim().split(/\s+/);
+//	var argv = str.trim().match(/[^\s"']+|"([^"]*)"|'([^']*)'/g);
+	var argv = str.trim().match(/[^\s"']+|"[^"]*"|'[^']*'/g);
+	argv = argv.map(function(arg) {
+		return arg.replace(/^['|"]|['|"]$/g, '');
+	});
+
 	if (argv[0] === '%')
 		argv.shift();
 	
@@ -40,12 +74,13 @@ function print(str)
 	redraw();
 }
 
-function system(str, echo)
+function system(str, _echo)
 {
 	var input = str,
 	    argv  = parseterm(input),
 	    cmd   = argv.shift();
 	
+	updateShellHistory(input);
 	echo(input);
 	if (cmd.length === 0)
 		return null;
