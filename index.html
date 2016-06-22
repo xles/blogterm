@@ -3,63 +3,24 @@
 <head>
 	<meta charset="UTF-8">
 	<title>blogterm</title>
-	<style>
-		html {
-			background-color: #333;
-			width: 100%;
-		}
-		body {
-			background-color: #ffe;	
-			border: 0.5em #795548 solid;
-			margin: auto;
-			width: 52em;
-	    padding: 1em 2em 3em 2em;
-			position: absolute;
-			top: 50%;
-			left: 50%;
-			transform: translate(-50%, -50%);
-		}
-		.terminal, #stdin {
-			background-color: #000;
-			color: #0d0;
-			font-size: 16px;
-			font-family: monospace;			
-		}
-		.terminal {
-			padding: 1em;
-		}
-		#stdin {
-			width: 50em;
-			outline: none;
-			border: none;
-			padding: 0;
-		}
-		#stdout {
-			width: 50em;
-			padding: 0;
-			height: 25em;
-			white-space: pre;
-			overflow: hidden;
-		}
-		#logo {
-			position: absolute;
-			height: 2em;
-			right: 3em;
-			bottom: 0.5em;
-		}
-	</style>
+	<link rel="stylesheet" href="css/blogterm.css">
 </head>
 <body>
 	<div class="terminal">
 		<div id="stdout"></div>
-		<input type="text" id="stdin" onkeyup="readterm(this)" autofocus>
-		<img src="img/xlestronix-logo.png" alt="logo" id="logo">
+		<input type="text" id="stdin" onkeyup="kernel(event)" autofocus>
+		<div id="logo">
+			<img src="img/xlestronix-logo.png" alt="logo" id="logo">
+			<p class="smetal">Blogterm 1138</p>
+		</div>
 	</div>
+	<script src="js/fs.js"></script>
 	<script src="js/stdlib.js"></script>
 	<script src="js/bin.js"></script>
-	<script src="js/main.js"></script>
+	<script src="js/jsos.js"></script>
+	<script src="js/jssh.js"></script>
 	<script>
-		main();
+		init();
 	</script>
 </body>
 </html>

@@ -1,60 +1,17 @@
-var stdout = document.getElementById('stdout'),
-    stdin = document.getElementById('stdin'),
-    sh_history = getShellHistory();
 
-function getShellHistory()
-{
-	if (!localStorage.getItem('sh_history')) {
-		localStorage.setItem('sh_history', JSON.stringify([]));
-	}
-	return JSON.parse(localStorage.getItem('sh_history'));
-}
-
-function updateShellHistory(cmd)
-{
-	sh_history.push(cmd);
-	localStorage.setItem('sh_history', JSON.stringify(sh_history));
-}
-
-function redraw()
+function redraw(prompt)
 {
 	stdout.scrollTop = stdout.scrollHeight;
-	stdin.value = '% ';
 }
 
-function readterm(e)
+function prompt(prompt)
 {
-	switch (event.keyCode) {
-		case 38:  // up arrow
-			echo('up arrow');
-			break;
-		case 40:  // up arrow
-			echo('down arrow');
-			break;
-		case 13:  // Return
-			//echo (e.value);
-			system(e.value);
-			break;
-		default:
-			return null;
-			break;
-	}
-/*
-	var input = e.value,
-	    argv  = parseterm(input),
-	    cmd   = argv.shift();
-	
-	echo(input);
-	if (cmd.length === 0)
-		return null;
-	if (programs.indexOf(cmd) === -1)
-		return echo(cmd + ': Command not found');
-	console.log('argv: %O', argv);
-	window[cmd](argv);
-*/
+	if (prompt === undefined)
+		prompt = '% ';	
+	stdin.value = prompt;
 }
 
-function parseterm(str)
+function parseargs(str)
 {
 //	var argv = str.trim().match(/[^\s"']+|"([^"]*)"|'([^']*)'/g);
 	var argv = str.trim().match(/[^\s"']+|"[^"]*"|'[^']*'/g);
@@ -70,23 +27,38 @@ function parseterm(str)
 
 function print(str)
 {
-	stdout.innerText = stdout.innerText + str;
+	stdout.textContent = stdout.textContent + str;
 	redraw();
 }
 
-function system(str, _echo)
+function echo(str)
 {
-	var input = str,
-	    argv  = parseterm(input),
-	    cmd   = argv.shift();
-	
-	updateShellHistory(input);
-	echo(input);
-	if (cmd.length === 0)
-		return null;
-	if (programs.indexOf(cmd) === -1)
-		return echo(cmd + ': Command not found');
-	window[cmd](argv);
+	print(str + '\n');
+}
+
+function call(cmd, argv)
+{
+	window.programs[cmd].main(argv.length, argv);
+}
+
+function parsepath(path)
+{
+    return path.slice(0, -1).split('/');
+}
+
+function gotodir(path)
+{
+	var tree = parsepath(path),
+	    _fs = fs;
+
+	tree.forEach(traverse);
+
+	function traverse(element, index, array) {
+		if (index === 0)
+			return;
+		_fs = _fs[element];
+	}
+	return _fs ? _fs : false;
 }
 
 function fread(str)
