@@ -51,7 +51,7 @@ programs.cd = (function (window) {
 
 programs.pwd = (function (window) {
 	return {
-		help: 'print working directory',
+		help: 'return working directory name',
 		main: function main(argc, argv) {
 			if (wd === '/') {
 				echo(wd);
@@ -64,7 +64,7 @@ programs.pwd = (function (window) {
 
 programs.ls = (function (window) {
 	return {
-		help: 'list contents of working directory',
+		help: 'list directory contents',
 		main: function main(argc, argv) {
 			var _wd = wd,
 			    _fs = gotodir(wd);
@@ -80,7 +80,7 @@ programs.ls = (function (window) {
 
 programs.cat = (function (window) {
 	return {
-		help: 'print working directory',
+		help: 'concatenate and print files',
 		main: function main(argc, argv) {
 			var file = argv[0],
 			    _fs = gotodir(wd)[file];
