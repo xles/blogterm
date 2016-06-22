@@ -2,7 +2,7 @@ var programs = {};
 
 programs.echo = (function (window) {
 	return {
-		help: 'echo string to stdout',
+		help: 'write arguments to the standard output',
 		main: function main(argc, argv) {
 			if (Array.isArray(argv)) {
 				argv = argv[0];
