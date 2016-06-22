@@ -73,7 +73,7 @@ programs.help = (function (window) {
 
 programs.clear = (function (window) {
 	return {
-		help: 'clear monitor',
+		help: 'clear the terminal screen',
 		main: function main(argc, argv)
 		{
 			stdout.textContent = '\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n';
