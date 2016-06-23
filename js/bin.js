@@ -86,7 +86,7 @@ programs.cat = (function (window) {
 			    _fs = gotodir(wd)[file];
 			
 			if (_fs && _fs._mode === 'f') {
-				echo(fread(wd+file));
+				print(fread(wd+file));
 			} else if (_fs && _fs._mode === 'd') {
 				echo('cat: ' + file + ': Is a directory.');
 			} else {

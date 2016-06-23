@@ -1,6 +1,6 @@
-
 function redraw(prompt)
 {
+	stdout.textContent = env.stdout + '\u2588';
 	stdout.scrollTop = stdout.scrollHeight;
 }
 
@@ -8,26 +8,26 @@ function prompt(prompt)
 {
 	if (prompt === undefined)
 		prompt = '% ';	
-	stdin.value = prompt;
+	print(prompt);
 }
 
 function parseargs(str)
 {
 //	var argv = str.trim().match(/[^\s"']+|"([^"]*)"|'([^']*)'/g);
 	var argv = str.trim().match(/[^\s"']+|"[^"]*"|'[^']*'/g);
+	if (!argv)
+		return str;
+
 	argv = argv.map(function(arg) {
 		return arg.replace(/^['|"]|['|"]$/g, '');
 	});
 
-	if (argv[0] === '%')
-		argv.shift();
-	
 	return argv;
 }
 
 function print(str)
 {
-	stdout.textContent = stdout.textContent + str;
+	env.stdout = env.stdout + str;
 	redraw();
 }
 
@@ -43,7 +43,10 @@ function call(cmd, argv)
 
 function parsepath(path)
 {
-    return path.slice(0, -1).split('/');
+	if (path.endsWith('/')) {
+		path = path.slice(0, -1);
+	}
+	return path.split('/');
 }
 
 function gotodir(path)
@@ -63,6 +66,24 @@ function gotodir(path)
 
 function fread(str)
 {
+	var _fs = gotodir(str);
+
+	if (!_fs) {
+		return false;
+	}
+
+	switch (_fs._mode) {
+		case 'f':
+			return fopen(str);
+			break;
+		default:
+			return false;
+			break;
+	}
+}
+
+function fopen(str)
+{
 	var filename = 'fs' + str;
 	xhr = new XMLHttpRequest();
 	xhr.open('GET', filename, false);
@@ -72,5 +93,18 @@ function fread(str)
 		return xhr.responseText;
 	} else {
 		return false;
-	}
+	}	
+}
+
+function fwrite(path, data)
+{
+	//var _fs = fs;//gotodir(path);
+	var _fs = gotodir(path);
+	//_fs['banana'] = {
+	_fs = {
+		_mode: 'm',
+		data:  data
+	};
+
+	env.set('fs', _fs);
 }

@@ -2,7 +2,7 @@ programs.jssh = (function (window) {
 	var sh_history = getShellHistory();
 
 	var main = function(argc, argv) {
-		switch (_event.keyCode) {
+		switch (env.event.keyCode) {
 			case 38:  // up arrow
 				echo('up arrow');
 				break;
@@ -11,7 +11,7 @@ programs.jssh = (function (window) {
 				break;
 			case 13:  // Return
 				//echo (e.value);
-				system(stdin.value);
+				system(env.stdin);
 				break;
 			default:
 				return null;
@@ -27,9 +27,8 @@ programs.jssh = (function (window) {
 		    cmd   = argv.shift();
 		
 		updateShellHistory(input);
-		echo(input);
 		if (cmd.length === 0)
-			return null;
+			return redraw();
 		if (cmd === 'jssh')
 			return null;
 		if (!programs.hasOwnProperty(cmd))
@@ -63,7 +62,6 @@ programs.help = (function (window) {
 				echo('  '+cmd+'\t- '+window.programs[cmd].help);
 			}
 		}
-		prompt();
 	};
 	return {
 		help: 'print help text',
@@ -76,9 +74,22 @@ programs.clear = (function (window) {
 		help: 'clear the terminal screen',
 		main: function main(argc, argv)
 		{
-			stdout.textContent = '\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n';
+			env.stdout = 	'\n\n\n\n\n\n' +
+					'\n\n\n\n\n\n' +
+					'\n\n\n\n\n\n' +
+					'\n\n\n\n\n\n';
 			redraw();
-			prompt();
+		}
+	};
+})(window);
+
+programs.reboot = (function (window) {
+	return {
+		help: 'stopping and restarting the system',
+		main: function main(argc, argv)
+		{
+			localStorage.clear();
+			init();
 		}
 	};
 })(window);
