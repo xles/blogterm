@@ -1,6 +1,7 @@
 function redraw(prompt)
 {
-	stdout.textContent = env.stdout + '\u2588';
+	//stdout.textContent = env.stdout + '\u2588';
+	stdout.innerHTML = env.stdout + '<span id="caret"></span>';
 	stdout.scrollTop = stdout.scrollHeight;
 }
 
@@ -52,7 +53,7 @@ function parsepath(path)
 function gotodir(path)
 {
 	var tree = parsepath(path),
-	    _fs = fs;
+	    _fs = env.get('fs');
 
 	tree.forEach(traverse);
 

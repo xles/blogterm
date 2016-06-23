@@ -62,7 +62,14 @@
       bottom: -1rem;
     }
 
+#caret:after {
+  content: '\2588';
+  animation: blink steps(1) 1s infinite;
+}
 
+@keyframes blink {  
+  50% { opacity: 0.0; }
+}
 
 
 
