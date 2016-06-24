@@ -1,8 +1,18 @@
 programs.jssh = (function (window) {
 	var sh_history = getShellHistory();
 
+	var promiseCreated = false;
 	var main = function(argc, argv) {
 		env.echo = true;
+
+		if (!promiseCreated) {
+			promiseCreated = true;
+			gets('% ').then(function(str) {
+				system(str);
+				promiseCreated = false;
+			});
+		}
+/*
 		switch (env.event.keyCode) {
 			case 38:  // up arrow
 				echo('up arrow');
@@ -19,6 +29,7 @@ programs.jssh = (function (window) {
 				break;
 		}
 		prompt();
+*/
 	};
 
 	function system(str, _echo)
@@ -80,6 +91,30 @@ programs.clear = (function (window) {
 					'\n\n\n\n\n\n' +
 					'\n\n\n\n\n\n';
 			redraw();
+		}
+	};
+})(window);
+
+programs.whoami = (function (window) {
+	return {
+		help: 'display effective user id',
+		main: function main(argc, argv)
+		{
+			echo(env.whoami.uname);
+		}
+	};
+})(window);
+
+programs.exit = (function (window) {
+	return {
+		help: 'display effective user id',
+		main: function main(argc, argv)
+		{
+			call('clear', []);
+			env.whoami = {};
+			env.process.pop();
+			echo('Logging out');
+			//exit();
 		}
 	};
 })(window);

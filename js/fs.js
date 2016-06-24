@@ -30,6 +30,9 @@ function fsinit()
 				},
 				motd: {
 					_mode: 'f'
+				},
+				passwd: {
+					_mode: 'f'
 				}
 
 			}	

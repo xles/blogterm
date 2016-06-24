@@ -16,30 +16,34 @@ programs.cd = (function (window) {
 	return {
 		help: 'change working directory',
 		main: function main(argc, argv) {
-			var path = argv[0], _wd;
-			    tree = wd.slice(0, -1).split('/');
+			var path = argv[1], _wd;
+			    tree = env.wd.slice(0, -1).split('/');
 
-			if (path === '.')
+			if (path === '.') {
 				return true;
-
-			if (path === '..') {
+			} else if (path === '..') {
 				tree.pop();
-				wd = tree.join('/') + '/';
+				env.wd = tree.join('/') + '/';
+				return true;
+			} else if (path === '~') {
+				env.wd = env.whoami.home + '/';
+				return true;
+			} else if (path === '/') {
+				env.wd = '/';
 				return true;
 			}
-
 
 			if (path.startsWith('/')) {
 				_wd = path;
 			} else {
-				_wd = wd + path;
+				_wd = env.wd + path;
 			}
 			if (!path.endsWith('/')) {
 				_wd = _wd + '/';
 			}
 			var _fs = gotodir(_wd);
 			if (_fs && _fs._mode === 'd') {
-				wd = _wd;
+				env.wd = _wd;
 			} else if (_fs && _fs._mode !== 'd') {
 				echo(path + ': Not a directory.');
 			} else {
@@ -53,10 +57,10 @@ programs.pwd = (function (window) {
 	return {
 		help: 'return working directory name',
 		main: function main(argc, argv) {
-			if (wd === '/') {
-				echo(wd);
+			if (env.wd === '/') {
+				echo(env.wd);
 			} else {
-				echo(wd.slice(0, -1));
+				echo(env.wd.slice(0, -1));
 			}
 		}
 	};
@@ -66,8 +70,8 @@ programs.ls = (function (window) {
 	return {
 		help: 'list directory contents',
 		main: function main(argc, argv) {
-			var _wd = wd,
-			    _fs = gotodir(wd);
+			var _wd = env.wd,
+			    _fs = gotodir(env.wd);
 			console.log(_fs);
 			for (var path in _fs) {
 				if (_fs.hasOwnProperty(path) && path !== '_mode') {
@@ -83,10 +87,10 @@ programs.cat = (function (window) {
 		help: 'concatenate and print files',
 		main: function main(argc, argv) {
 			var file = argv[0],
-			    _fs = gotodir(wd)[file];
+			    _fs = gotodir(env.wd)[file];
 			
 			if (_fs && _fs._mode === 'f') {
-				print(fread(wd+file));
+				print(fread(env.wd+file));
 			} else if (_fs && _fs._mode === 'd') {
 				echo('cat: ' + file + ': Is a directory.');
 			} else {

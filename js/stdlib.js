@@ -109,3 +109,22 @@ function fwrite(path, data)
 
 	env.set('fs', _fs);
 }
+
+function get_users()
+{
+	var users = {}, passwd = fread('/etc/passwd');
+	passwd = passwd.trim().split('\n').map(function(pw) {
+		pw = pw.split(':')
+		users[pw[0]] = {
+			uname: pw[0],
+			pw:    pw[1],
+			uid:   pw[2],
+			gid:   pw[3],
+			gcos:  pw[4],
+			home:  pw[5],
+			sh:    pw[6]
+		};
+	});
+
+	return users;
+}
