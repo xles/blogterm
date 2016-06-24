@@ -2,7 +2,7 @@ var fs = JSON.parse(localStorage.getItem('fs'));
 
 function fsinit()
 {
-	if (!localStorage.getItem('fs')) {
+//	if (!localStorage.getItem('fs')) {
 		localStorage.setItem('fs', JSON.stringify(
 		{
 			bin: {
@@ -38,5 +38,5 @@ function fsinit()
 			}	
 		}
 		));
-	}
+//	}
 }
