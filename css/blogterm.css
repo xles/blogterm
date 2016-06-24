@@ -46,6 +46,11 @@ body:before {
   padding: 1em;
   box-shadow: 0 0 2em 0.5em rgba(0,192,0,0.4);
   border-radius: 1em;
+  /*
+  animation: flicker steps(25) 0.04s infinite;
+  animation: flicker steps(3) 0.04s infinite;
+  animation: flicker steps(1) 1s infinite;
+  */
 }
 #stdin {
   width: 50em;
@@ -77,14 +82,24 @@ body:before {
   bottom: -5rem;
 }
 #logo p + p {
+  color: hsla(0,0%,20%,1);
+  text-shadow: hsla(0,0%,40%,.5) 0 -1px 0, hsla(0,0%,100%,.6) 0 2px 1px;
+/*
   color:#999;
   text-shadow: 1px 1px #666;
-  font-size: 1.5rem;
+  box-shadow: 0 0 0.05em #795548, 2px 2px 2px #999;
+  box-shadow: 0 0 0.25em 0.05em #adad8d;
+*/
+  font-size: 1.2rem;
   font-family: Helvetica;
   font-weight: bold;
   text-transform: uppercase;
   left: 3rem;
-  bottom: -1rem;
+  bottom: -0.6rem;
+  padding: 0.35em 0.5em 0.15em 0.5em;
+  border-radius: 0.25em;
+  box-shadow: 0 0.1em 0.25em #ad9d9d, 
+        inset 0 0 0.1em #adad8d;
 }
 
 #caret:after {
@@ -94,6 +109,17 @@ body:before {
 
 @keyframes blink {  
   50% { opacity: 0.0; }
+}
+
+@keyframes flicker {  
+  50% { 
+    /*
+    opacity: 0.0;
+    color: #f00; 
+    */
+    color: #00f000; 
+    box-shadow: 0 0 2em 0.5em rgba(0,192,0,0.6);
+  }
 }
 
 .postit {    
