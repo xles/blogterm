@@ -55,7 +55,7 @@ var env = {
 	},
 	stdin: '',
 	stdout: '',
-	echo: true
+	echo: false
 }
 
 function init(e)

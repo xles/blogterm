@@ -1,10 +1,9 @@
 html {
   background-color: #333;
   width: 100%;
+  overflow: hidden;
 }
 body {
-  background-color: #ffe; 
-  border: 0.5em #795548 solid;
   margin: auto;
   width: 52em;
   padding: 1em 2em 3em 2em;
@@ -12,6 +11,30 @@ body {
   top: 45%;
   left: 50%;
   transform: translate(-50%, -50%);
+}
+body, body:before {
+  background-color: #ffe; 
+  border: 0.5em #795548 solid;
+  border-radius: 2em;
+}  
+body:after, body:before {
+  content: "";
+  z-index: -1;
+  position: absolute;
+  display: none;
+}
+body:after {
+  width: 32em;
+  height: 1em;
+  right: 12em;
+  bottom: -1.5em;
+  background-color: #4c352d;
+}
+body:before {
+  width: 56em;
+  height: 20em;
+  right: -0.5em;
+  bottom: -22.5em;
 }
 .terminal, #stdin {
   background-color: #000;
@@ -21,6 +44,8 @@ body {
 }
 .terminal {
   padding: 1em;
+  box-shadow: 0 0 2em 0.5em rgba(0,192,0,0.4);
+  border-radius: 1em;
 }
 #stdin {
   width: 50em;

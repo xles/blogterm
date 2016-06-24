@@ -2,6 +2,7 @@ programs.jssh = (function (window) {
 	var sh_history = getShellHistory();
 
 	var main = function(argc, argv) {
+		env.echo = true;
 		switch (env.event.keyCode) {
 			case 38:  // up arrow
 				echo('up arrow');
