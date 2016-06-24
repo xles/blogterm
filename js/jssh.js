@@ -23,17 +23,17 @@ programs.jssh = (function (window) {
 	function system(str, _echo)
 	{
 		var input = str,
-		    argv  = parseargs(input),
-		    cmd   = argv.shift();
+		    argv  = parseargs(input);
 		
 		updateShellHistory(input);
-		if (cmd.length === 0)
+
+		if (argv.length === 0)
 			return redraw();
-		if (cmd === 'jssh')
+		if (argv[0] === 'jssh')
 			return null;
-		if (!programs.hasOwnProperty(cmd))
-			return echo(cmd + ': Command not found');
-		call(cmd, argv);
+		if (!programs.hasOwnProperty(argv[0]))
+			return echo(argv[0] + ': Command not found');
+		call(argv[0], argv);
 	}
 
 	function getShellHistory()
@@ -89,7 +89,7 @@ programs.reboot = (function (window) {
 		main: function main(argc, argv)
 		{
 			localStorage.clear();
-			init();
+			//init(env.event);
 		}
 	};
 })(window);
