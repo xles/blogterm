@@ -19,7 +19,10 @@ programs.cd = (function (window) {
 			var path = argv[1], _wd;
 			    tree = env.wd.slice(0, -1).split('/');
 
-			if (path === '.') {
+			if (!path) {
+				env.wd = env.whoami.home + '/';
+				return true;
+			} else if (path === '.') {
 				return true;
 			} else if (path === '..') {
 				tree.pop();
