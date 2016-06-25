@@ -12,11 +12,6 @@ if (!Array.prototype.last){
 	};
 };
 
-setInterval(function(){ 
-	kernel(env.event);
-}, 40);
-
-
 document.onkeydown = function(e) {
 	kernel(e);
 	document.dispatchEvent(new CustomEvent('getch', {detail:e.key}));
@@ -95,7 +90,10 @@ function init(e)
 	call('clear', []);
 	print(new Date().toString() + '\n\n');
 	echo('JSOS, Copyright © 2016 xlestronix Digital Equipment.\n');
-	call(env.process.last(), []);
+
+	setInterval(function(){ 
+		kernel(e);
+	}, 40);
 }
 
 function kernel(e)
