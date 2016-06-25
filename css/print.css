@@ -1,0 +1,87 @@
+/*
+// Copyright (c) 2012 xles <xles@miraukulix.org>
+//
+// Permission is hereby granted, free of charge, to any person obtaining
+// a copy of this software and associated documentation files
+// (the "Software"), to deal in the Software without restriction,
+// including without limitation the rights to use, copy, modify, merge,
+// publish, distribute, sublicense, and/or sell copies of the Software,
+// and to permit persons to whom the Software is furnished to do so,
+// subject to the following conditions:
+//
+// The above copyright notice and this permission notice shall be
+// included in all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+// EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+// CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+// SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+*/
+
+@media only print {
+    html, body {
+        padding:0;
+        margin:0;
+        width: 100%;
+    }
+    article > * {
+        margin-left: 60pt;
+    }
+    p {
+        font-size: 12pt;
+        padding:0;
+        text-align: justify;
+    }
+    p + p {
+        text-indent: 1.5em;
+    }
+    ol ol, ul ul {
+        margin-left: $line-height;
+    }
+
+    h1, h2 {
+/*
+        page-break-before: right;
+*/
+    }
+    h1, h2, h3, h4, h5, h6 {
+        page-break-after: avoid;
+    }
+    a:after {
+        content: " (" attr(href) ") ";
+    }
+    body > header,
+    body > footer,
+    menu, nav {
+        display: none;
+    }
+    body {
+    }
+    @page {
+        margin-top: 74.4pt;
+        margin-bottom: 120.4pt;
+        color: #000;
+        background-color: #000;
+        widows:4;
+        orphans:4;
+        counter-increment: page;
+        counter-reset: page 1;
+    }
+    @page:left {
+        margin-left: 60.4pt;
+        margin-right: 74.4pt;
+        @bottom-left {
+            content: counter(page);
+        }
+    }
+    @page:right {
+        margin-left: 14.4pt;
+        margin-right: 120.4pt;
+        @bottom-right {
+            content: counter(page);
+        }
+    }
+}

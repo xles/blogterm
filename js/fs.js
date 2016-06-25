@@ -3,8 +3,7 @@ var fs = JSON.parse(localStorage.getItem('fs'));
 function fsinit()
 {
 //	if (!localStorage.getItem('fs')) {
-		localStorage.setItem('fs', JSON.stringify(
-		{
+		localStorage.setItem('fs', JSON.stringify({
 			bin: {
 				_mode: 'd',
 				cd: {
@@ -35,8 +34,19 @@ function fsinit()
 					_mode: 'f'
 				}
 
-			}	
-		}
-		));
+			},
+			usr: {
+				_mode: 'd',
+				alice: {
+					_mode: 'd',
+					TODO: {
+						_mode: 'f'
+					},
+					'resume.md': {
+						_mode: 'f'
+					}
+				}
+			}
+		}));
 //	}
 }

@@ -9,13 +9,13 @@ function prompt(prompt)
 {
 	if (prompt === undefined)
 		prompt = '% ';	
-	print(prompt);
+	printf(prompt);
 }
 
 function parseargs(str)
 {
-//	var argv = str.trim().match(/[^\s"']+|"([^"]*)"|'([^']*)'/g);
-	var argv = str.trim().match(/[^\s"']+|"[^"]*"|'[^']*'/g);
+	var argv = str.trim().match(/[^\s"']+|"([^"]*)"|'([^']*)'/g);
+
 	if (!argv)
 		return str;
 
@@ -26,15 +26,23 @@ function parseargs(str)
 	return argv;
 }
 
-function print(str)
+function printf(str)
 {
-	env.stdout = env.stdout + str;
+	env.stdout = env.stdout + html_entities(str);
 	redraw();
 }
 
-function echo(str)
+function html_entities(str) {
+	return String(str)
+		.replace(/&/g, '&amp;')
+		.replace(/</g, '&lt;')
+		.replace(/>/g, '&gt;')
+		.replace(/"/g, '&quot;');
+}
+
+function puts(str)
 {
-	print(str + '\n');
+	printf(str + '\n');
 }
 
 function call(cmd, argv)
@@ -60,7 +68,9 @@ function gotodir(path)
 	function traverse(element, index, array) {
 		if (index === 0)
 			return;
+		console.log(_fs);
 		_fs = _fs[element];
+		console.log(_fs);
 	}
 	return _fs ? _fs : false;
 }

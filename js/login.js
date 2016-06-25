@@ -2,7 +2,7 @@ programs.login = (function (window) {
 
 	var promiseCreated = false;
 	var main = function(argc, argv) {
-		env.echo = true;
+		env.puts = true;
 		
 		if (Object.keys(env.whoami).length === 0) {
 			if (!promiseCreated) {
@@ -32,13 +32,17 @@ programs.login = (function (window) {
 //		}
 		if (env.whoami.pw === btoa(str)) {
 			console.log(str + ': password valid');
+			env.wd = env.whoami.home + '/';
 			call('clear', []);
 			var motd = fread('/etc/motd');
-			print(motd);
+			printf(motd);
 			call('jssh', []);
-			env.process.push('jssh');
+			env.process.push({
+				bin: 'jssh',
+				argv: ''
+			});
 		} else {
-			echo('password invalid\n\n');
+			puts('password invalid\n\n');
 			env.whoami = {};
 		}		
 	}
@@ -51,7 +55,7 @@ programs.login = (function (window) {
 		if (env.users.hasOwnProperty(str)) {
 			env.whoami = env.users[str];
 		} else {
-			echo(str + ': no such user\n\n');
+			puts(str + ': no such user\n\n');
 		}
 	}
 	return {

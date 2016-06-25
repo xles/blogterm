@@ -1,0 +1,7 @@
+TODO
+====
+
+* Implement proper pipelining.
+* Implement I/O redirection.
+* Write a clone of `more`.
+* Get pizza?

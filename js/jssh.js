@@ -3,7 +3,7 @@ programs.jssh = (function (window) {
 
 	var promiseCreated = false;
 	var main = function(argc, argv) {
-		env.echo = true;
+		env.puts = true;
 
 		if (!promiseCreated) {
 			promiseCreated = true;
@@ -15,13 +15,13 @@ programs.jssh = (function (window) {
 /*
 		switch (env.event.keyCode) {
 			case 38:  // up arrow
-				echo('up arrow');
+				puts('up arrow');
 				break;
 			case 40:  // up arrow
-				echo('down arrow');
+				puts('down arrow');
 				break;
 			case 13:  // Return
-				//echo (e.value);
+				//puts (e.value);
 				system(env.stdin);
 				break;
 			default:
@@ -32,20 +32,44 @@ programs.jssh = (function (window) {
 */
 	};
 
-	function system(str, _echo)
+	function parse_pipeline(str)
+	{
+		var pipeline = str.trim().split('|');
+
+		if (!pipeline[0])
+			return [];
+
+		pipeline = pipeline.map(function(cmd) {
+			var argv = cmd.trim().match(/[^\s"']+|"[^"]*"|'[^']*'/g);
+			if (!argv)
+				return cmd.trim();
+
+			argv = argv.map(function(arg) {
+				return arg.replace(/^['|"]|['|"]$/g, '');
+			});
+			return argv;
+		});
+
+		return pipeline;
+	}
+	function system(str, _puts)
 	{
 		var input = str,
-		    argv  = parseargs(input);
+		    pipeline  = parse_pipeline(input);
 		
 		updateShellHistory(input);
 
-		if (argv.length === 0)
+		console.log(pipeline);
+		if (pipeline.length === 0)
 			return redraw();
-		if (argv[0] === 'jssh')
+		if (pipeline[0][0] === 'jssh')
 			return null;
-		if (!programs.hasOwnProperty(argv[0]))
-			return echo(argv[0] + ': Command not found');
-		call(argv[0], argv);
+
+		pipeline.map(function(cmd) {
+			if (!programs.hasOwnProperty(cmd[0]))
+				return puts(cmd[0] + ': Command not found');
+			call(cmd[0], cmd);
+		})
 	}
 
 	function getShellHistory()
@@ -68,10 +92,10 @@ programs.jssh = (function (window) {
 
 programs.help = (function (window) {
 	var main = function(argc, argv) {
-		echo('Available commands:');
+		puts('Available commands:');
 		Object.keys(programs).sort().forEach(function(cmd) {
 			var len = cmd.length;
-			echo('  '+cmd+' '.repeat(10-len)+window.programs[cmd].help);	
+			puts('  '+cmd+' '.repeat(10-len)+window.programs[cmd].help);	
 		});
 	};
 	return {
@@ -99,7 +123,7 @@ programs.whoami = (function (window) {
 		help: 'display effective user id',
 		main: function main(argc, argv)
 		{
-			echo(env.whoami.uname);
+			puts(env.whoami.uname);
 		}
 	};
 })(window);
@@ -112,7 +136,7 @@ programs.exit = (function (window) {
 			call('clear', []);
 			env.whoami = {};
 			env.process.pop();
-			echo('Logging out');
+			puts('Logging out');
 			//exit();
 		}
 	};

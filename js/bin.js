@@ -5,9 +5,10 @@ programs.echo = (function (window) {
 		help: 'write arguments to the standard output',
 		main: function main(argc, argv) {
 			if (Array.isArray(argv)) {
-				argv = argv[1];
+				argv.shift();
+				argv = argv.join(' ');
 			}
-			echo(argv);
+			puts(argv);
 		}
 	};
 })(window);
@@ -48,9 +49,9 @@ programs.cd = (function (window) {
 			if (_fs && _fs._mode === 'd') {
 				env.wd = _wd;
 			} else if (_fs && _fs._mode !== 'd') {
-				echo(path + ': Not a directory.');
+				puts(path + ': Not a directory.');
 			} else {
-				echo(path + ': No such file or directory.');
+				puts(path + ': No such file or directory.');
 			}
 		}
 	};
@@ -61,9 +62,9 @@ programs.pwd = (function (window) {
 		help: 'return working directory name',
 		main: function main(argc, argv) {
 			if (env.wd === '/') {
-				echo(env.wd);
+				puts(env.wd);
 			} else {
-				echo(env.wd.slice(0, -1));
+				puts(env.wd.slice(0, -1));
 			}
 		}
 	};
@@ -78,7 +79,7 @@ programs.ls = (function (window) {
 			console.log(_fs);
 			for (var path in _fs) {
 				if (_fs.hasOwnProperty(path) && path !== '_mode') {
-					echo(path);
+					puts(path);
 				}
 			}
 		}
@@ -93,11 +94,52 @@ programs.cat = (function (window) {
 			    _fs = gotodir(env.wd)[file];
 			
 			if (_fs && _fs._mode === 'f') {
-				print(fread(env.wd+file));
+				printf(fread(env.wd+file));
 			} else if (_fs && _fs._mode === 'd') {
-				echo('cat: ' + file + ': Is a directory.');
+				puts('cat: ' + file + ': Is a directory.');
 			} else {
-				echo('cat: ' + file + ': No such file or directory.');
+				puts('cat: ' + file + ': No such file or directory.');
+			}
+		}
+	};
+})(window);
+
+programs.lp = (function (window) {
+	return {
+		help: 'print files',
+		main: function main(argc, argv) {
+			var file = argv[1],
+			    _fs = gotodir(env.wd)[file],
+			    printdata = JSON.stringify({
+			    	wd: env.wd,
+			    	argv: argv
+			    });
+
+			if (_fs && _fs._mode === 'f') {
+				var page = document.createElement('iframe');
+				page.onload = function setPrint () {
+					this.contentWindow.__container__ = this;
+					this.contentWindow.onbeforeunload = function () {
+						document.body.removeChild(this.__container__);
+					};
+					this.contentWindow.onafterprint = function () {
+						document.body.removeChild(this.__container__);
+					};
+					this.contentWindow.focus(); // Required for IE
+					//this.contentWindow.print();
+				};
+				page.style.visibility = 'hidden';
+				page.style.position = 'fixed';
+				page.style.right = '0';
+				page.style.bottom = '0';
+				page.src = '/print.html#' + btoa(printdata);
+				document.body.appendChild(page);			
+			} else if (_fs && _fs._mode === 'd') {
+				puts('lp: No file in print request.');
+			} else {
+				puts('lp: Error - unable to access "' + 
+					file + 
+					'" - No such file or directory');
 			}
 		}
 	};
