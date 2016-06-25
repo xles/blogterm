@@ -89,7 +89,7 @@ programs.cat = (function (window) {
 	return {
 		help: 'concatenate and print files',
 		main: function main(argc, argv) {
-			var file = argv[0],
+			var file = argv[1],
 			    _fs = gotodir(env.wd)[file];
 			
 			if (_fs && _fs._mode === 'f') {
