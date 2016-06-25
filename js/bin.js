@@ -5,7 +5,7 @@ programs.echo = (function (window) {
 		help: 'write arguments to the standard output',
 		main: function main(argc, argv) {
 			if (Array.isArray(argv)) {
-				argv = argv[0];
+				argv = argv[1];
 			}
 			echo(argv);
 		}
