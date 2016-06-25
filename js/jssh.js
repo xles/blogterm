@@ -69,11 +69,10 @@ programs.jssh = (function (window) {
 programs.help = (function (window) {
 	var main = function(argc, argv) {
 		echo('Available commands:');
-		for (var cmd in programs) {
-			if (programs.hasOwnProperty(cmd) && cmd !== 'jssh') {
-				echo('  '+cmd+'\t- '+window.programs[cmd].help);
-			}
-		}
+		Object.keys(programs).sort().forEach(function(cmd) {
+			var len = cmd.length;
+			echo('  '+cmd+' '.repeat(10-len)+window.programs[cmd].help);	
+		});
 	};
 	return {
 		help: 'print help text',
@@ -107,7 +106,7 @@ programs.whoami = (function (window) {
 
 programs.exit = (function (window) {
 	return {
-		help: 'display effective user id',
+		help: 'cause normal process termination',
 		main: function main(argc, argv)
 		{
 			call('clear', []);
