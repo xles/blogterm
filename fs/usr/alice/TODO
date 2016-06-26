@@ -3,5 +3,8 @@ TODO
 
 * Implement proper pipelining.
 * Implement I/O redirection.
+* Implement shell history blah with up/down keys.
+* Implement autocompletion with tab key.
+* Implement an interrupt signal, wire to ctrl-c.
 * Write a clone of `more`.
 * Get pizza?
