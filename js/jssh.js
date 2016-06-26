@@ -94,8 +94,14 @@ programs.help = (function (window) {
 	var main = function(argc, argv) {
 		puts('Available commands:');
 		Object.keys(programs).sort().forEach(function(cmd) {
-			var len = cmd.length;
-			puts('  '+cmd+' '.repeat(10-len)+window.programs[cmd].help);	
+			var internal = [
+				'jssh',
+				'login'
+			];
+			if (internal.indexOf(cmd) === -1) {
+				var len = cmd.length;
+				puts('  '+cmd+' '.repeat(10-len)+window.programs[cmd].help);
+			}
 		});
 	};
 	return {
