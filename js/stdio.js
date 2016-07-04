@@ -77,6 +77,7 @@ function fread(stream)
 		case 's': 
 			data = stream.node.content;
 			stream.node.content = '';
+			env.set('fs', fs);
 			break;
 		case 'f':
 			var filename = 'fs' + stream.realpath;

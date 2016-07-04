@@ -119,7 +119,7 @@ function init(e)
 	call('login', []);
 	setInterval(function(){ 
 		kernel(e);
-	}, 40);
+	}, 400);
 
 
 }
@@ -160,3 +160,10 @@ function testworker()
 	worker.postMessage('Hello World');
 }
 */
+
+function clearstream(stream)
+{
+	console.log('clearstream(): %s', stream);
+	fs.dev[stream].content = '';
+	env.set('fs', fs);
+}

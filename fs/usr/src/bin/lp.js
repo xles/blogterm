@@ -4,7 +4,7 @@ function init(argc, argv) {}
 function main(argc, argv)
 {
 	var filename = argv[1],
-	    file = fopen(file),
+	    file = fopen(filename),
 	    lp = fopen('/dev/lp'),
 	    printdata = JSON.stringify({
 	    	wd: env.wd,
@@ -24,6 +24,7 @@ function main(argc, argv)
 				document.body.removeChild(this.__container__);
 			};
 			this.contentWindow.focus(); // Required for IE
+			this.contentWindow.fs = fs;
 			//this.contentWindow.print();
 		};
 		page.style.visibility = 'hidden';
@@ -31,7 +32,7 @@ function main(argc, argv)
 		page.style.right = '0';
 		page.style.bottom = '0';
 		page.src = '/print.html#' + btoa(printdata);
-		document.body.appendChild(page);			
+		document.body.appendChild(page);
 	} else if (file && file.node._mode === 'd') {
 		puts('lp: No file in print request.');
 	} else {

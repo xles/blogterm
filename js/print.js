@@ -13,13 +13,18 @@ var env = {
 	wd: '/',
 	whoami: {},
 	puts: false
-}
+};
+var fs = env.get('fs');
 
 window.onload = function() {
 	var paper = document.getElementById('paper'),
-	    fs = env.get('fs');
+	    lp = fopen('/dev/lp');
 
-	paper.innerHTML = fs.dev.lp.content;
+	console.log(lp.node.content);
+	paper.innerHTML = fread(lp);
+	console.log(lp.node.content);
+//	stream.node.content = '';
+//	env.set('fs', fs);
 /*
 	    data = location.hash.substr(1);
 	fsinit();
@@ -35,5 +40,6 @@ window.onload = function() {
 
 	//paper.innerHTML = fread(data.wd+data.argv[1]);
 	window.print();
+	window.parent.clearstream('lp');
 	//paper.innerHTML = location.hash;
 };
