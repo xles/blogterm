@@ -17,6 +17,10 @@ var env = {
 
 window.onload = function() {
 	var paper = document.getElementById('paper'),
+	    fs = env.get('fs');
+
+	paper.innerHTML = fs.dev.lp.content;
+/*
 	    data = location.hash.substr(1);
 	fsinit();
 	console.log(data);
@@ -27,7 +31,7 @@ window.onload = function() {
 	var writer = new commonmark.HtmlRenderer();
 	var parsed = reader.parse(fread(data.wd+data.argv[1]));
 	paper.innerHTML = writer.render(parsed);
-
+*/
 
 	//paper.innerHTML = fread(data.wd+data.argv[1]);
 	window.print();

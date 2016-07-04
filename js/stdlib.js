@@ -1,8 +1,12 @@
 function redraw(prompt)
 {
 	//stdout.textContent = env.stdout + '\u2588';
-	stdout.innerHTML = env.stdout + '<span id="caret"></span>';
-	stdout.scrollTop = stdout.scrollHeight;
+	fwrite(fread(stdout), tty);
+	fwrite(fread(stderr), tty);
+	termbuffer += fread(tty);
+	terminal.innerHTML = termbuffer + '<span id="caret"></span>';
+	terminal.scrollTop = terminal.scrollHeight;
+//	console.log(stdout.textContent.split('\n').length);
 }
 
 function prompt(prompt)
@@ -26,30 +30,24 @@ function parseargs(str)
 	return argv;
 }
 
-function printf(str)
-{
-	env.stdout = env.stdout + html_entities(str);
-	redraw();
-}
-
-function html_entities(str) {
-	return String(str)
-		.replace(/&/g, '&amp;')
-		.replace(/</g, '&lt;')
-		.replace(/>/g, '&gt;')
-		.replace(/"/g, '&quot;');
-}
-
-function puts(str)
-{
-	printf(str + '\n');
-}
-
 function call(cmd, argv)
 {
-	window.programs[cmd].main(argv.length, argv);
+	env.process.push({
+		bin: cmd,
+		argv: argv
+	});
+	window.programs[cmd].init(argv.length, argv);
 }
 
+function kill()
+{
+	window.programs[env.process.last().bin].kill(
+		env.process.last().argv.length,
+		env.process.last().argv
+	);
+	env.process.pop();
+}
+/*
 function parsepath(path)
 {
 	if (path.endsWith('/')) {
@@ -75,7 +73,7 @@ function gotodir(path)
 	return _fs ? _fs : false;
 }
 
-function fread(str)
+function _fread(str)
 {
 	var _fs = gotodir(str);
 
@@ -85,7 +83,10 @@ function fread(str)
 
 	switch (_fs._mode) {
 		case 'f':
-			return fopen(str);
+			return sfopen(str);
+			break;
+		case 'u':
+			return sfopen(_fs.url);
 			break;
 		default:
 			return false;
@@ -93,7 +94,7 @@ function fread(str)
 	}
 }
 
-function fopen(str)
+function sfopen(str)
 {
 	var filename = 'fs' + str;
 	xhr = new XMLHttpRequest();
@@ -107,7 +108,7 @@ function fopen(str)
 	}	
 }
 
-function fwrite(path, data)
+function _fwrite(path, data)
 {
 	//var _fs = fs;//gotodir(path);
 	var _fs = gotodir(path);
@@ -119,10 +120,13 @@ function fwrite(path, data)
 
 	env.set('fs', _fs);
 }
-
+*/
 function get_users()
 {
-	var users = {}, passwd = fread('/etc/passwd');
+	var users = {}, passwd = fopen('/etc/passwd');
+	console.log(passwd);
+	passwd = fread(passwd);
+
 	passwd = passwd.trim().split('\n').map(function(pw) {
 		pw = pw.split(':')
 		users[pw[0]] = {
@@ -137,4 +141,58 @@ function get_users()
 	});
 
 	return users;
+}
+/*
+		path = path.split('/').reverse();
+		var wd = env.wd.substr(1).split('/');
+		for (var i = 0; i < path.length; i++) {
+			if (path[path.length-1] === '..') {
+				path.pop();
+				wd.pop();
+			} else if (path[path.length-1] === '.') {
+				path.pop();
+			}
+		}
+		path = '/' + path.reverse().join('/');
+		if (wd.length > 0)
+			wd =  '/' + wd.join('/');
+
+		path = wd + path;
+*/
+function realpath(path)
+{
+	var resolved = [];
+	if (!path) {
+		return env.wd;
+	} else if (path.startsWith('~')) {
+		path = env.whoami.home + path.substr(1);
+	} else if (!path.startsWith('/')) {
+		path = env.wd + path;
+	}
+	path = path.split('/');
+	for (var i = 0; i < path.length; i++) {
+		if (path[i] === '.' || path[i] === '')
+			continue;
+		if (path[i] === '..') {
+			resolved.pop();
+		} else {
+			resolved.push(path[i]);
+		}
+	}
+	resolved = '/' + resolved.join('/');
+	console.log(resolved);
+	if (resolved === '/')
+		return '/';
+
+	var current = fs,
+	    spath = resolved.substr(1).split('/').reverse();
+	while (spath.length) {
+		if (typeof current !== 'object')
+			return null;
+		current = current[spath.pop()];
+	}
+	if (current === undefined) // || current._mode === 'd')
+		return null;
+
+	return resolved;
 }

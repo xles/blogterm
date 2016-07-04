@@ -5,12 +5,14 @@ html {
 }
 body {
   margin: auto;
-  width: 52em;
+  width: 84ch;
   padding: 1em 2em 3em 2em;
   position: absolute;
   top: 45%;
   left: 50%;
   transform: translate(-50%, -50%);
+  font-size: 16px;
+  font-family: monospace;     
 }
 body, body:before {
   background-color: #ffe; 
@@ -36,14 +38,10 @@ body:before {
   right: -0.5em;
   bottom: -22.5em;
 }
-.terminal, #stdin {
+.terminal {
   background-color: #000;
   color: #0d0;
-  font-size: 16px;
-  font-family: monospace;     
-}
-.terminal {
-  padding: 1em;
+  padding: 1em 2ch;
   box-shadow: 0 0 2em 0.5em rgba(0,192,0,0.4);
   border-radius: 1em;
   /*
@@ -52,17 +50,11 @@ body:before {
   animation: flicker steps(1) 1s infinite;
   */
 }
-#stdin {
-  width: 50em;
-  outline: none;
-  border: none;
-  padding: 0;
-}
 #stdout {
-  width: 50em;
+  width: 80ch;
   padding: 0;
-  height: 25em;
-  line-height: 1em;
+  height: 30em;
+  line-height: 1.2em;
   white-space: pre-wrap;
   overflow: hidden;
 }
@@ -74,28 +66,31 @@ body:before {
   right: 3em;
   bottom: 0.5em;
 }
-#logo p {
+#logo p.postit {
   color: #333;
-  font-size: 1.67rem;
+  font-size: 1.67em;
   font-family: 'Reenie Beanie';
-  left: 32rem;
-  bottom: -5rem;
+  /*
+  left: 32em;
+  */
+  right: 7em;
+  bottom: -3.2em;
 }
-#logo p + p {
+#logo p.model {
   color: hsla(0,0%,20%,1);
-  text-shadow: hsla(0,0%,40%,.5) 0 -1px 0, hsla(0,0%,100%,.6) 0 2px 1px;
+  text-shadow: hsla(0,0%,40%,.5) 0 -0.05em 0, hsla(0,0%,100%,.6) 0 0.1em 0.05em;
 /*
   color:#999;
   text-shadow: 1px 1px #666;
   box-shadow: 0 0 0.05em #795548, 2px 2px 2px #999;
   box-shadow: 0 0 0.25em 0.05em #adad8d;
 */
-  font-size: 1.2rem;
+  left: 3em;
+  font-size: 1.2em;
   font-family: Helvetica;
   font-weight: bold;
   text-transform: uppercase;
-  left: 3rem;
-  bottom: -0.6rem;
+  bottom: -0.6em;
   padding: 0.35em 0.5em 0.15em 0.5em;
   border-radius: 0.25em;
   box-shadow: 0 0.1em 0.25em #ad9d9d, 
@@ -124,16 +119,16 @@ body:before {
 
 .postit {    
   text-align:center;     
-  padding:1.5rem;
+  padding:1em;
   position:relative;
-  border:1px solid #E8E8E8;
+  border:0.1em solid #E8E8E8;
   font-family:'Reenie Beanie';
-  border-top-right-radius: 3rem 1rem;
+  border-top-right-radius: 1.5em 0.5em;
   display:inline-block;
   background: #ffff88;
   background: linear-gradient(45deg, #ffff88 81%,#ffff88 82%,#ffff88 82%,#ffffc6 100%); /* W3C */
   transform: rotate(3deg);
-  box-shadow:2px 2px 15px rgba(0, 0, 0, 0.40);
+  box-shadow:0.2em 0.2em 1em rgba(0, 0, 0, 0.40);
 }
 
 .postits:before {
@@ -141,10 +136,10 @@ body:before {
   content: "";
   position:absolute;
   z-index:-1;
-  right:-0px; bottom:20px;
+  right:0; bottom:1.3em;
   width:10em;
-  height: 25px;
+  height: 2em;
   background: rgba(0, 0, 0, 0.2);
-  box-shadow:4px 15px 5px rgba(0, 0, 0, 0.40);
+  box-shadow:0.25em 1em 0.3em rgba(0, 0, 0, 0.40);
   transform: matrix(-1, -0.1, 0, 1, 0, 0);
 }
