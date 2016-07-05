@@ -88,7 +88,15 @@ window.onload = function(e) {
 	env.event = e || window.event;
 	init();
 	console.log(env.event);
-}
+};
+
+window.onresize = function(e) {
+	var wrem = (window.innerWidth / 58),
+	    hrem = (window.innerHeight / 44),
+	    rem  = Math.min(wrem, hrem) + 'px';
+	document.body.style.fontSize = rem;
+	terminal.scrollTop = terminal.scrollHeight;
+};
 
 function init(e)
 {
