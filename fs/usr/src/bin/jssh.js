@@ -55,6 +55,7 @@ function parse_pipeline(str)
 		return [];
 
 	pipeline = pipeline.map(function(cmd) {
+
 		var argv = cmd.trim().match(/[^\s"']+|"[^"]*"|'[^']*'/g);
 		if (!argv)
 			return cmd.trim();
@@ -71,10 +72,13 @@ function system(str, _puts)
 {
 	var input = str,
 	    pipeline  = parse_pipeline(input);
-	
+
 	updateShellHistory(input);
 	showPrompt = true;
 
+	if ((str.match(/"/g) || []).length % 2 > 0)
+		return puts('Unmatched ".');
+	
 	console.log(pipeline);
 	if (pipeline.length === 0)
 		return redraw();

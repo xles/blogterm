@@ -127,7 +127,7 @@ function init(e)
 	call('login', []);
 	setInterval(function(){ 
 		kernel(e);
-	}, 400);
+	}, 40);
 
 
 }
