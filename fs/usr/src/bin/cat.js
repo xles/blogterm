@@ -5,7 +5,11 @@ function main(argc, argv)
 {
 	var filename = argv[1],
 	    file = fopen(filename),
-	    node = file.node;
+	    node;
+	
+	if(!file)
+		puts('cat: ' + filename + ': No such file or directory.');
+	node = file.node;
 	
 	console.log(file);
 	if (node && (node._mode === 'f' || node._mode === 'u')) {
