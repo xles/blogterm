@@ -7,8 +7,10 @@ function main(argc, argv)
 	    file = fopen(filename),
 	    node;
 	
-	if(!file)
+	if(!file) {
 		puts('cat: ' + filename + ': No such file or directory.');
+		return 0;
+	}
 	node = file.node;
 	
 	console.log(file);
