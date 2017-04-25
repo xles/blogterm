@@ -5,8 +5,12 @@ var stdin  = fopen('/dev/stdin'),
 
 function fopen(path)
 {
-	var path = realpath(path).substr(1)
-	    rpath = '/' + path,
+	var path = realpath(path);
+	if (!path)
+		return null;
+	path = path.substr(1);
+	
+	var rpath = '/' + path,
 	    current = fs;
 
 	path = path.split('/').reverse();
