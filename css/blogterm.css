@@ -45,7 +45,7 @@ body:before {
 .terminal {
   background-color: #000;
 /*  color: #33ff33;  P1 green */
-  color #FFB000;  /* P3 amber */
+  color: #ffb000;  /* P3 amber */
   padding: 1em 2ch;
   box-shadow: 0 0 2em 0.5em rgba(0,192,0,0.4);
   border-radius: 1em;
