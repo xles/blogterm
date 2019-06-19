@@ -1,6 +1,6 @@
 @font-face {
   font-family: 'vt220';
-  src: url('_decterm.ttf') format('truetype');
+  src: url('decterm.ttf') format('truetype');
 }  
 html {
   background-color: #333;
