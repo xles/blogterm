@@ -18,9 +18,16 @@ var fs = env.get('fs');
 
 window.onload = function() {
 	var paper = document.getElementById('paper'),
-	    lp = fopen('/dev/lp');
+	    lp = fopen('/dev/lp'),
+	    xml;
+
+	xml = new window.DOMParser()
+		.parseFromString(lp.node.content, 'text/xml');
 
 	console.log(lp.node.content);
+	if (xml.querySelector('parsererror')) {
+		lp.node.content = '<pre>' + lp.node.content + '</pre>';
+	}
 	paper.innerHTML = fread(lp);
 	console.log(lp.node.content);
 //	stream.node.content = '';
