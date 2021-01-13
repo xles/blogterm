@@ -16,7 +16,8 @@ body {
   left: 50%;
   transform: translate(-50%, -50%);
   font-size: 16px;
-  font-family: 'vt220';  /* monospace; */
+  /* font-family: 'vt220'; */
+  font-family: monospace;
 }
 body, body:before {
   background-color: #ffe; 
@@ -44,11 +45,11 @@ body:before {
 }
 .terminal {
   background-color: #000;
-/*  color: #33ff33;  P1 green */
-  color: #ffb000;  /* P3 amber */
+  color: #33ff33;  /* P1 green */
+  box-shadow: 0 0 2em 0.5em rgba(51,255,51,0.4); /* P1 green */
+/*  color: #ffb000;  /* P3 amber */
+/*  box-shadow: 0 0 2em 0.5em rgba(255,176,0,0.4); /* P3 amber */
   padding: 1em 2ch;
-/*  box-shadow: 0 0 2em 0.5em rgba(51,255,51,0.4); /* P1 green */
-  box-shadow: 0 0 2em 0.5em rgba(255,176,0,0.4); /* P3 amber */
   border-radius: 1em;
   /*
   animation: flicker steps(25) 0.04s infinite;
