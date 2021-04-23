@@ -146,7 +146,8 @@ function main(argc, argv)
 	call('clear', []);
 	env.whoami = {};
 	puts('Logging out');
-	kill();
+//	kill();
+	document.dispatchEvent(exitEvent);
 	return 0;
 }
 function kill(argc, argv) {}
